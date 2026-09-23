@@ -269,6 +269,33 @@
     cursor:default;
     transform:none;
   }
+  .cta-btn{
+    margin-top:24px;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:16px 20px;
+    font-family:'Assistant';
+    font-size:15px;
+    font-weight:700;
+    color:#FFFFFF;
+    background:linear-gradient(135deg, var(--bronze), var(--bronze-deep));
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+    text-decoration:none;
+    box-shadow:0 10px 22px -8px rgba(122,93,63,.6);
+    transition:transform .15s ease, box-shadow .18s ease;
+  }
+  .cta-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 26px -8px rgba(122,93,63,.7);
+  }
+  .cta-btn svg{
+    transform:scaleX(-1);
+  }
 
   @media (max-width:640px){
     .preview-wrap{ max-height:40vh; }
@@ -343,11 +370,11 @@
       </summary>
       <div class="row-body">
       <div class="swatches" data-group="cornice">
-        <button class="swatch option-tile active" data-value="symmetric" data-label="סימטרי">
+        <button class="swatch option-tile" data-value="symmetric" data-label="סימטרי">
           <span class="chip"><svg width="30" height="16" viewBox="0 0 34 16"><path d="M1 14 Q1 10 5 10 Q9 10 9 6 Q9 2 13 2 L21 2 Q25 2 25 6 Q25 10 29 10 Q33 10 33 14" fill="none" stroke="#7A5D3F" stroke-width="1.6"/></svg></span>
           סימטרי
         </button>
-        <button class="swatch option-tile" data-value="asymmetric" data-label="אסימטרי">
+        <button class="swatch option-tile active" data-value="asymmetric" data-label="אסימטרי">
           <span class="chip"><svg width="30" height="16" viewBox="0 0 34 16"><path d="M1 14 L1 9 Q1 5 6 5 L14 5 Q17 5 17 2 L34 2" fill="none" stroke="#7A5D3F" stroke-width="1.6"/></svg></span>
           אסימטרי
         </button>
@@ -365,11 +392,11 @@
       </summary>
       <div class="row-body">
       <div class="swatches" data-group="colorZone">
-        <button class="swatch option-tile active" data-value="top" data-label="שני שליש עליון">
+        <button class="swatch option-tile" data-value="top" data-label="שני שליש עליון">
           <span class="chip" style="background:linear-gradient(to bottom, #9C7B4F 0%, #9C7B4F 66%, #FFFFFF 66%, #FFFFFF 100%); border:1px solid #D8CDBB"></span>
           שני שליש עליון
         </button>
-        <button class="swatch option-tile" data-value="bottom" data-label="שליש תחתון">
+        <button class="swatch option-tile active" data-value="bottom" data-label="שליש תחתון">
           <span class="chip" style="background:linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 66%, #9C7B4F 66%, #9C7B4F 100%); border:1px solid #D8CDBB"></span>
           שליש תחתון
         </button>
@@ -403,12 +430,17 @@
       </div>
     </details>
 
+    <a href="https://wallart-builder-he.lovable.app" target="_blank" rel="noopener" class="cta-btn">
+      אהבתם? המשיכו להזמנה
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+
   </div>
 </div>
 
 
 <script>
-const state = { color:'#E8DCDC', colorLabel:'Baby Blush · 0085P', colorZone:'top', colorZoneLabel:'שני שליש עליון', cornice:'symmetric', corniceLabel:'סימטרי', sticker:'branches', stickerLabel:'ענפי פרחים', frameset:'moon', framesetLabel:'ירח וכוכבים' };
+const state = { color:'#E8DCDC', colorLabel:'Baby Blush · 0085P', colorZone:'bottom', colorZoneLabel:'שליש תחתון', cornice:'asymmetric', corniceLabel:'אסימטרי', sticker:'branches', stickerLabel:'ענפי פרחים', frameset:'moon', framesetLabel:'ירח וכוכבים' };
 
 document.querySelectorAll('.swatches').forEach(group=>{
   const key = group.dataset.group;
@@ -1173,15 +1205,28 @@ document.getElementById('framesetGroup').querySelectorAll('.swatch').forEach(btn
 buildStickerButtons();
 
 const stickerSpots = [
-  [60,45,0.42,45,0.75],[220,45,0.42,45,0.75],[380,45,0.42,45,0.75],[540,45,0.42,45,0.75],
-  [140,100,0.42,45,0.75],[300,100,0.42,45,0.75],[460,100,0.42,45,0.75],
-  [60,155,0.42,45,0.75],[220,155,0.42,45,0.75],[380,155,0.42,45,0.75],[540,155,0.42,45,0.75],
-  [140,210,0.42,45,0.75],[300,210,0.42,45,0.75],[460,210,0.42,45,0.75],
-  [60,265,0.42,45,0.75],[220,265,0.42,45,0.75],[380,265,0.42,45,0.75],[540,265,0.42,45,0.75],
-  [140,320,0.42,45,0.75],[300,320,0.42,45,0.75],[460,320,0.42,45,0.75],
-  [60,375,0.42,45,0.75],[220,375,0.42,45,0.75],[380,375,0.42,45,0.75],[540,375,0.42,45,0.75],
-  [140,430,0.42,45,0.75],[300,430,0.42,45,0.75],[460,430,0.42,45,0.75]
+  [60,45,0,45,0.75],[220,45,2,45,0.75],[380,45,1,45,0.75],[540,45,2,45,0.75],
+  [140,100,2,45,0.75],[300,100,0,45,0.75],[460,100,1,45,0.75],
+  [60,155,1,45,0.75],[220,155,2,45,0.75],[380,155,0,45,0.75],[540,155,2,45,0.75],
+  [140,210,0,45,0.75],[300,210,1,45,0.75],[460,210,2,45,0.75],
+  [60,265,2,45,0.75],[220,265,1,45,0.75],[380,265,0,45,0.75],[540,265,2,45,0.75],
+  [140,320,1,45,0.75],[300,320,2,45,0.75],[460,320,0,45,0.75],
+  [60,375,2,45,0.75],[220,375,0,45,0.75],[380,375,1,45,0.75],[540,375,2,45,0.75],
+  [140,430,0,45,0.75],[300,430,2,45,0.75],[460,430,1,45,0.75]
 ];
+
+// Sticker sets whose source sheets used one consistent size for every
+// item (measured from the original artwork). Everything else had a
+// genuine mix of large/medium/small elements, so those get the varied
+// scale below in the same ratio as the original sheet.
+const UNIFORM_STICKER_SETS = new Set([
+  'branches','sprigs','butterflies_white','balloons_pink','flowers_pink',
+  'bears_flag','deer','vehicles_blue','butterflies_tan','rocking_horses',
+  'bears_sweater','rainbows',
+  'dots_tan','dots_sage','dots_skin','nautical','flowers_blush_c'
+]);
+const UNIFORM_SCALE = 0.42;
+const VARIED_SCALES = [0.60, 0.42, 0.26]; // large, medium, small
 
 function render(){
   const svg = document.getElementById('room');
@@ -1200,8 +1245,10 @@ function render(){
   let stickers = '';
   if(state.sticker !== 'none' && STICKER_SETS_DATA[state.sticker]){
     const imgs = STICKER_SETS_DATA[state.sticker].images;
-    stickerSpots.forEach(([x,y,s,r,op])=>{
+    const isUniform = UNIFORM_STICKER_SETS.has(state.sticker);
+    stickerSpots.forEach(([x,y,tier,r,op])=>{
       const src = imgs[Math.floor(Math.random() * imgs.length)];
+      const s = isUniform ? UNIFORM_SCALE : VARIED_SCALES[tier];
       const w = 63 * s, h = 63 * s;
       stickers += `<g transform="translate(${x},${y}) rotate(${r})" opacity="${op}">
         <image href="${src}" x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>
