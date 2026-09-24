@@ -430,7 +430,7 @@
       </div>
     </details>
 
-    <a href="https://wallart-builder-he.lovable.app" target="_blank" rel="noopener" class="cta-btn">
+    <a href="https://wallart-builder-he.lovable.app" target="_blank" rel="noopener" class="cta-btn" id="ctaLink">
       אהבתם? המשיכו להזמנה
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
@@ -1290,7 +1290,37 @@ function render(){
 
   document.getElementById('summary').textContent =
     `${state.colorLabel} · קרניז ${state.corniceLabel} · ${state.framesetLabel}`;
+
+  updateCtaLink();
 }
+
+function buildOrderUrl(){
+  const params = new URLSearchParams({
+    location: state.colorZoneLabel,
+    images: state.framesetLabel,
+    stickers: state.stickerLabel,
+    moldings: state.corniceLabel,
+    tamba: state.colorLabel
+  });
+  return 'https://wallart-builder-he.lovable.app?' + params.toString();
+}
+
+function updateCtaLink(){
+  const link = document.getElementById('ctaLink');
+  if(link) link.href = buildOrderUrl();
+}
+
+// Belt-and-suspenders: also save the full selection to localStorage on click,
+// in case the order/summary page ever ends up on the exact same origin.
+// NOTE: localStorage does NOT transfer data across different domains —
+// if the summary page lives on a different origin than this page, only the
+// URL query parameters above (already appended to the link's href) will
+// actually reach it. Read them there with `new URLSearchParams(location.search)`.
+document.getElementById('ctaLink').addEventListener('click', function(){
+  try{
+    localStorage.setItem('wallart_selection', JSON.stringify(state));
+  }catch(e){ /* localStorage unavailable — safe to ignore */ }
+});
 
 function shade(hex, percent){
   const num = parseInt(hex.slice(1),16);
