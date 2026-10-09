@@ -418,11 +418,11 @@
           צבע מלא
         </button>
         <button class="swatch option-tile" data-value="thin" data-label="פסים דקים">
-          <span class="chip" style="background:repeating-linear-gradient(to right, #9C7B4F 0 3px, #FFFFFF 3px 6px); border:1px solid #D8CDBB"></span>
+          <span class="chip" style="background:repeating-linear-gradient(to right, #9C7B4F 0 5.4px, #FFFFFF 5.4px 8.4px); border:1px solid #D8CDBB"></span>
           פסים דקים
         </button>
         <button class="swatch option-tile" data-value="thick" data-label="פסים עבים">
-          <span class="chip" style="background:repeating-linear-gradient(to right, #9C7B4F 0 8px, #FFFFFF 8px 16px); border:1px solid #D8CDBB"></span>
+          <span class="chip" style="background:repeating-linear-gradient(to right, #9C7B4F 0 14.4px, #FFFFFF 14.4px 22.4px); border:1px solid #D8CDBB"></span>
           פסים עבים
         </button>
       </div>
@@ -1243,8 +1243,8 @@ function render(){
     }
     return out;
   }
-  const topPatternTint = state.pattern === 'thin' ? stripeTint(0,0,600,corniceY, topTint, 8, 8)
-    : state.pattern === 'thick' ? stripeTint(0,0,600,corniceY, topTint, 20, 20)
+  const topPatternTint = state.pattern === 'thin' ? stripeTint(0,0,600,corniceY, topTint, 14, 8)
+    : state.pattern === 'thick' ? stripeTint(0,0,600,corniceY, topTint, 36, 20)
     : tintRect(0,0,600,corniceY, topTint);
   const wallTint = topPatternTint
     + tintRect(0,465,600,812-465, bottomTint);
