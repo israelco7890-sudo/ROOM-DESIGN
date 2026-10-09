@@ -406,6 +406,32 @@
     <details class="row">
       <summary>
         <span class="titles">
+          <p class="row-title">סגנון הצבע</p>
+          <p class="row-sub">צבע מלא או פסים בחלק העליון (מעל הקרניז), לפי הגוון שנבחר</p>
+        </span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </summary>
+      <div class="row-body">
+      <div class="swatches" data-group="pattern">
+        <button class="swatch option-tile active" data-value="solid" data-label="צבע מלא">
+          <span class="chip" style="background:#9C7B4F; border:1px solid #D8CDBB"></span>
+          צבע מלא
+        </button>
+        <button class="swatch option-tile" data-value="thin" data-label="פסים דקים">
+          <span class="chip" style="background:repeating-linear-gradient(to right, #9C7B4F 0 3px, #FFFFFF 3px 6px); border:1px solid #D8CDBB"></span>
+          פסים דקים
+        </button>
+        <button class="swatch option-tile" data-value="thick" data-label="פסים עבים">
+          <span class="chip" style="background:repeating-linear-gradient(to right, #9C7B4F 0 8px, #FFFFFF 8px 16px); border:1px solid #D8CDBB"></span>
+          פסים עבים
+        </button>
+      </div>
+      </div>
+    </details>
+
+    <details class="row">
+      <summary>
+        <span class="titles">
           <p class="row-title">מדבקות קיר</p>
           <p class="row-sub">דוגמית מפוזרת על הקיר</p>
         </span>
@@ -439,7 +465,7 @@
 
 
 <script>
-const state = { color:'#E8DCDC', colorLabel:'Baby Blush · 0085P', colorZone:'bottom', colorZoneLabel:'שליש תחתון', cornice:'asymmetric', corniceLabel:'אסימטרי', sticker:'branches', stickerLabel:'ענפי פרחים', frameset:'moon', framesetLabel:'ירח וכוכבים' };
+const state = { color:'#E8DCDC', colorLabel:'Baby Blush · 0085P', colorZone:'bottom', colorZoneLabel:'שליש תחתון', cornice:'asymmetric', corniceLabel:'אסימטרי', pattern:'solid', patternLabel:'צבע מלא', sticker:'branches', stickerLabel:'ענפי פרחים', frameset:'moon', framesetLabel:'ירח וכוכבים' };
 
 document.querySelectorAll('.swatches').forEach(group=>{
   const key = group.dataset.group;
@@ -1206,7 +1232,21 @@ function render(){
     if(!color) return '';
     return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${color}" opacity="0.6" style="mix-blend-mode:multiply"/>`;
   }
-  const wallTint = tintRect(0,0,600,corniceY, topTint)
+  function stripeTint(x,y,w,h,color,stripeW,gapW){
+    if(!color) return '';
+    let out = '';
+    const period = stripeW + gapW;
+    for(let sx = x; sx < x + w; sx += period){
+      const sw = Math.min(stripeW, x + w - sx);
+      if(sw <= 0) break;
+      out += `<rect x="${sx}" y="${y}" width="${sw}" height="${h}" fill="${color}" opacity="0.6" style="mix-blend-mode:multiply"/>`;
+    }
+    return out;
+  }
+  const topPatternTint = state.pattern === 'thin' ? stripeTint(0,0,600,corniceY, topTint, 8, 8)
+    : state.pattern === 'thick' ? stripeTint(0,0,600,corniceY, topTint, 20, 20)
+    : tintRect(0,0,600,corniceY, topTint);
+  const wallTint = topPatternTint
     + tintRect(0,465,600,812-465, bottomTint);
 
   let stickers = '';
