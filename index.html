@@ -525,12 +525,16 @@ function buildFramesetButtons(){
     vintage_bear: "דובי וינטג'", floral_name: "פרחוני עם שם", blocks: "דובי וקוביות",
     moon: "ירח וכוכבים", pink_type: "טיפוגרפיה ורודה", pink_safari: "ספארי ורוד", safari: "ספארי"
   };
-  group.innerHTML = Object.keys(FRAME_SETS_DATA).map(key => {
+  const noneBtn = `<button class="swatch option-tile" data-value="none" data-label="ללא">
+    <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="#B9AC98" stroke-width="2" stroke-linecap="round"/></svg></span>ללא
+  </button>`;
+  const setButtons = Object.keys(FRAME_SETS_DATA).map(key => {
     const active = key === 'moon' ? ' active' : '';
     return `<button class="swatch option-tile${active}" data-value="${key}" data-label="${labels[key]}">
       <span class="chip" style="background-image:url('${FRAME_SETS_DATA[key].thumb}');background-size:cover;background-position:center"></span>${labels[key]}
     </button>`;
   }).join('');
+  group.innerHTML = noneBtn + setButtons;
 }
 
 function corniceStrip(mode){
@@ -560,19 +564,19 @@ function buildStickerButtons(){
     flowers_blush_c:'פרחי דובדבן ורודים', bunnies:'ארנבונים',
     none:'ללא'
   };
-  const keys = ['branches','sprigs','butterflies_white','balloons_pink','flowers_pink','bears_flag',
+  const keys = ['none',
+    'branches','sprigs','butterflies_white','balloons_pink','flowers_pink','bears_flag',
     'deer','vehicles_blue','nursery_blue','butterflies_tan','bear_activities','rocking_horses',
     'bears_sweater','rainbows',
     'bears_balloons','flowers_blush_a','leaves_green','cotton_tan',
     'dots_tan','dots_sage','dots_skin','dots_organic','soccer','gaming',
     'nautical','safari_scenery','bear_playground','safari_animals','stars_mixed','balloons_sepia',
-    'flowers_blush_c','bunnies',
-    'none'];
+    'flowers_blush_c','bunnies'];
   group.innerHTML = keys.map(key => {
     const active = key === state.sticker ? ' active' : '';
     if(key === 'none'){
       return `<button class="swatch option-tile${active}" data-value="none" data-label="ללא">
-        <span class="chip" style="color:#B7AE9B;font-size:12px">ללא</span>ללא
+        <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="#B9AC98" stroke-width="2" stroke-linecap="round"/></svg></span>ללא
       </button>`;
     }
     const thumb = STICKER_SETS_DATA[key].images[0];
@@ -1333,10 +1337,10 @@ function render(){
     });
   }
 
-  const setData = FRAME_SETS_DATA[state.frameset] || FRAME_SETS_DATA.moon;
+  const setData = state.frameset === 'none' ? null : (FRAME_SETS_DATA[state.frameset] || FRAME_SETS_DATA.moon);
   const frameX = [150, 300, 450];
   const frameY = 220;
-  const frames = setData.images.map((img, i) => {
+  const frames = !setData ? '' : setData.images.map((img, i) => {
     const ratio = img.w / img.h;
     if (setData.frame){
       const boxH = 96, boxW = boxH * ratio;
