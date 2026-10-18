@@ -28,148 +28,197 @@
     font-family:'Assistant', sans-serif;
     color:var(--ink);
   }
-  .layout{
+  html,body{overflow:hidden;}
+  body{ background:#F4EEE6; }
+  .app{
     direction:rtl;
-    display:flex;
-    flex-direction:column;
-    min-height:100vh;
+    height:100vh; height:100dvh;
+    display:flex; flex-direction:column;
+    background:
+      radial-gradient(90% 60% at 50% 35%, #FFFDFA 0%, #F4EEE6 70%, #EADFD2 100%);
   }
 
-  /* ---------------- preview (pinned top) ---------------- */
-  .preview-wrap{
-    position:sticky;
-    top:0;
-    z-index:10;
-    width:100%;
-    aspect-ratio:600/900;
-    max-height:64vh;
-    background:radial-gradient(120% 90% at 50% 0%, #FFFFFF 0%, var(--preview-bg) 55%, #F3EEE8 100%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    box-shadow:0 12px 24px -12px rgba(0,0,0,.35);
+  /* ---------------- header ---------------- */
+  .topbar{
+    flex:0 0 auto;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px 8px;
   }
-  .preview-wrap svg{
-    width:100%;
-    height:100%;
-    display:block;
-  }
-  .brandmark{
-    position:absolute;
-    top:18px; left:24px;
-    color:rgba(255,255,255,.72);
+  .topbar h1{
     font-family:'Cormorant Garamond', serif;
-    font-size:14px;
-    letter-spacing:.14em;
-    direction:rtl;
+    font-weight:600; font-size:24px; margin:0; color:var(--ink);
+    white-space:nowrap;
+  }
+  .top-actions{ display:flex; align-items:center; gap:8px; }
+  .icon-btn{
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    height:40px; padding:0 14px;
+    font-family:'Assistant'; font-size:13px; font-weight:700;
+    color:var(--bronze-deep);
+    background:#FFFFFF;
+    border:1px solid var(--stone-line);
+    border-radius:999px; cursor:pointer;
+    box-shadow:0 4px 12px -6px rgba(51,45,39,.25);
+    transition:transform .15s ease, box-shadow .18s ease;
+  }
+  .icon-btn:hover{ transform:translateY(-1px); box-shadow:0 8px 16px -8px rgba(51,45,39,.3); }
+  .icon-btn:disabled{ opacity:.6; cursor:default; transform:none; }
+  .cta-btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    height:40px; padding:0 18px;
+    font-family:'Assistant'; font-size:14px; font-weight:700;
+    color:#FFFFFF; text-decoration:none; white-space:nowrap;
+    background:linear-gradient(135deg, var(--bronze), var(--bronze-deep));
+    border:none; border-radius:999px; cursor:pointer;
+    box-shadow:0 8px 18px -8px rgba(111,84,54,.65);
+    transition:transform .15s ease, box-shadow .18s ease;
+  }
+  .cta-btn:hover{ transform:translateY(-1px); box-shadow:0 12px 22px -8px rgba(111,84,54,.75); }
+  .cta-btn svg{ transform:scaleX(-1); }
+
+  .notice{
+    flex:0 0 auto;
+    margin:0 16px 6px;
+    padding:6px 14px;
+    font-size:11.5px; font-weight:700; line-height:1.4; text-align:center;
+    color:var(--bronze-deep);
+    background:rgba(156,122,82,.12);
+    border:1px solid rgba(156,122,82,.25);
+    border-radius:999px;
+  }
+
+  /* ---------------- stage (big live preview) ---------------- */
+  .stage{
+    flex:1 1 auto; min-height:0;
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    padding:4px 12px 10px;
+  }
+  .stage-inner{
+    position:relative;
+    height:100%; max-width:100%;
+    aspect-ratio:600/900;
+    border-radius:20px;
+    overflow:hidden;
+    background:#FFFFFF;
+    box-shadow:0 30px 60px -28px rgba(51,45,39,.55), 0 0 0 1px rgba(51,45,39,.06);
+  }
+  .stage-inner svg{ width:100%; height:100%; display:block; }
+  .live-pill{
+    position:absolute; top:12px; right:12px;
+    display:flex; align-items:center; gap:6px;
+    padding:5px 11px;
+    font-size:11px; font-weight:700; letter-spacing:.06em; color:#fff;
+    background:rgba(51,45,39,.55);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    border-radius:999px;
+  }
+  .live-pill i{
+    width:7px; height:7px; border-radius:50%; background:#6FD08C;
+    box-shadow:0 0 0 0 rgba(111,208,140,.7);
+    animation:livepulse 1.8s infinite;
+  }
+  @keyframes livepulse{
+    0%{ box-shadow:0 0 0 0 rgba(111,208,140,.6); }
+    70%{ box-shadow:0 0 0 8px rgba(111,208,140,0); }
+    100%{ box-shadow:0 0 0 0 rgba(111,208,140,0); }
   }
   .caption-bar{
-    position:absolute;
-    bottom:0; left:0; right:0;
-    display:flex;
-    align-items:center;
-    gap:14px;
-    padding:16px 24px;
-    background:linear-gradient(0deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 100%);
-    direction:rtl;
-  }
-  .caption-bar .dot{
-    width:30px;height:30px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.55);
-    display:flex;align-items:center;justify-content:center;
-    color:#fff;
-    font-size:14px;
-    flex-shrink:0;
+    position:absolute; left:0; right:0; bottom:0;
+    padding:26px 16px 12px;
+    background:linear-gradient(0deg, rgba(30,24,18,.6) 0%, rgba(30,24,18,0) 100%);
+    pointer-events:none;
   }
   .caption-bar span{
-    color:#fff;
-    font-family:'Cormorant Garamond', serif;
-    font-size:17px;
-    letter-spacing:.05em;
+    color:#fff; font-size:13px; font-weight:600; letter-spacing:.02em;
+    text-shadow:0 1px 6px rgba(0,0,0,.4);
   }
 
-  /* ---------------- panel (options below) ---------------- */
-  .panel{
-    direction:rtl;
-    width:100%;
-    max-width:640px;
-    margin:-22px auto 0;
-    position:relative;
-    z-index:5;
+  /* ---------------- dock (bottom toolbar + tray) ---------------- */
+  .dock{
+    flex:0 0 auto;
+    position:relative; z-index:5;
+    width:100%; max-width:760px; margin:0 auto;
     background:var(--card);
     border-radius:26px 26px 0 0;
-    box-shadow:0 -14px 28px -20px rgba(51,45,39,.3), 0 2px 2px rgba(51,45,39,.03);
-    padding:30px 28px 30px;
-    display:flex;
-    flex-direction:column;
-    flex:1;
+    box-shadow:0 -16px 34px -18px rgba(51,45,39,.35), 0 -1px 0 rgba(51,45,39,.06);
+    padding-bottom:env(safe-area-inset-bottom);
   }
-  .panel-head{
-    margin-bottom:10px;
+  .tray{
+    overflow:hidden;
+    height:172px;
+    transition:height .28s ease, opacity .2s ease;
+    border-bottom:1px solid var(--stone-line);
   }
-  .panel-head h1{
-    font-family:'Cormorant Garamond', serif;
-    font-weight:600;
-    font-size:29px;
-    margin:0 0 6px;
-    color:var(--ink);
+  .tray.closed{ height:0; opacity:0; border-bottom-color:transparent; }
+  .tray-head{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:14px 18px 2px;
+    height:56px;
   }
-  .panel-head p{
-    margin:0 0 8px;
-    font-size:13px;
-    color:var(--ink-mid);
-    line-height:1.6;
+  .row-title{
+    font-size:13px; font-weight:700; letter-spacing:.06em;
+    color:var(--ink); margin:0 0 2px;
+  }
+  .row-sub{ margin:0; font-size:11.5px; color:var(--ink-soft); }
+  .tray-close{
+    flex-shrink:0; width:32px; height:32px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    border:none; background:var(--stone); color:var(--bronze-deep); cursor:pointer;
+  }
+  .tray-close svg{ width:18px; height:18px; }
+  .cat{ display:none; padding:6px 0 0; }
+  .cat.active{ display:block; }
+  .tray .swatches{
+    flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden;
+    gap:12px; padding:8px 18px 12px;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+  }
+  .tray .swatches::-webkit-scrollbar{ height:4px; }
+  .tray .swatches::-webkit-scrollbar-thumb{ background:var(--stone-deep); border-radius:4px; }
+  .tray .swatch{ flex-shrink:0; scroll-snap-align:start; }
+  .tray .swatch:not(.option-tile){ width:76px; text-align:center; line-height:1.25; }
+  .tray .swatch.option-tile{ white-space:nowrap; }
+
+  .toolbar{
+    display:flex; align-items:stretch; gap:4px;
+    padding:8px 10px 10px;
+    overflow-x:auto; scrollbar-width:none;
+  }
+  .toolbar::-webkit-scrollbar{ display:none; }
+  .tool-btn{
+    flex:1 0 auto; min-width:64px;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    padding:8px 8px 7px;
+    font-family:'Assistant'; font-size:11.5px; font-weight:600;
+    color:var(--ink-soft);
+    background:none; border:none; border-radius:16px; cursor:pointer;
+    transition:background .18s ease, color .18s ease, transform .15s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .tool-btn svg{ width:24px; height:24px; }
+  .tool-btn:hover{ background:var(--stone); color:var(--ink); }
+  .tool-btn.active{
+    color:#FFFFFF;
+    background:linear-gradient(135deg, var(--bronze), var(--bronze-deep));
+    box-shadow:0 8px 16px -8px rgba(111,84,54,.6);
   }
 
-  .row{
-    padding:0;
-    border-top:1px solid var(--stone-line);
+  @media (min-width:900px){
+    .stage-inner{ border-radius:24px; }
+    .tool-btn{ min-width:84px; font-size:12.5px; }
   }
-  .row summary{
-    padding:18px 2px;
-    margin:0 -2px;
-    border-radius:10px;
-    cursor:pointer;
-    list-style:none;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    -webkit-tap-highlight-color:transparent;
-    transition:background .15s ease;
-  }
-  .row summary:hover{
-    background:var(--stone);
-  }
-  .row summary::-webkit-details-marker{ display:none; }
-  .row summary .titles{ flex:1; min-width:0; }
-  .row-title{
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    color:var(--ink);
-    margin:0 0 3px;
-  }
-  .row-sub{
-    margin:0;
-    font-size:12px;
-    color:var(--ink-soft);
-  }
-  .row .chevron{
-    flex-shrink:0;
-    width:20px;
-    height:20px;
-    color:var(--bronze);
-    transition:transform .2s ease;
-  }
-  .row[open] > summary .chevron{
-    transform:rotate(180deg);
-  }
-  .row .row-body{
-    padding:0 0 22px;
+  @media (max-width:520px){
+    .topbar h1{ font-size:21px; }
+    .cta-btn{ padding:0 14px; font-size:13px; }
+    .cta-btn .cta-long{ display:none; }
+    .icon-btn span{ display:none; }
+    .icon-btn{ padding:0 11px; }
+    .toolbar{ padding:8px 6px 10px; gap:2px; }
+    .tool-btn{ min-width:0; padding:8px 2px 7px; font-size:11px; }
+    .tool-btn svg{ width:22px; height:22px; }
   }
   .swatches{
     display:flex;
@@ -237,117 +286,199 @@
     background:rgba(255,255,255,.22);
   }
 
-  .panel-foot{
-    margin-top:auto;
-    padding-top:22px;
-    font-size:11px;
-    color:var(--ink-soft);
-    border-top:1px solid var(--stone-line);
-  }
-  .panel-head p.disclaimer{
-    margin:0;
-    padding:9px 14px;
-    font-size:12px;
-    font-weight:700;
-    color:#FFFFFF;
-    background:linear-gradient(135deg, var(--bronze), var(--bronze-deep));
-    border-radius:999px;
-    box-shadow:0 6px 14px -8px rgba(122,93,63,.5);
-  }
-  .download-btn{
-    margin-top:14px;
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:13px 18px;
-    font-family:'Assistant';
-    font-size:14px;
-    font-weight:700;
-    color:#FFFFFF;
-    background:linear-gradient(135deg, var(--bronze), var(--bronze-deep));
-    border:none;
-    border-radius:999px;
-    cursor:pointer;
-    box-shadow:0 6px 14px -8px rgba(122,93,63,.5);
-    transition:transform .15s ease, box-shadow .18s ease;
-  }
-  .download-btn:hover{
-    transform:translateY(-1px);
-    box-shadow:0 10px 18px -8px rgba(122,93,63,.6);
-  }
-  .download-btn:disabled{
-    opacity:.6;
-    cursor:default;
-    transform:none;
-  }
-  .cta-btn{
-    margin-top:24px;
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:16px 20px;
-    font-family:'Assistant';
-    font-size:15px;
-    font-weight:700;
-    color:#FFFFFF;
-    background:linear-gradient(135deg, var(--bronze), var(--bronze-deep));
-    border:none;
-    border-radius:999px;
-    cursor:pointer;
-    text-decoration:none;
-    box-shadow:0 10px 22px -8px rgba(122,93,63,.6);
-    transition:transform .15s ease, box-shadow .18s ease;
-  }
-  .cta-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 14px 26px -8px rgba(122,93,63,.7);
-  }
-  .cta-btn svg{
-    transform:scaleX(-1);
-  }
 
-  @media (max-width:640px){
-    .preview-wrap{ max-height:40vh; }
-    .panel{ padding:22px 18px 26px; }
+  /* ---------------- minimal pass ---------------- */
+  body, .app{ background:#F7F3EE; }
+  .topbar{ padding:8px 16px 4px; }
+  .topbar h1{ font-size:20px; }
+  .icon-btn{ box-shadow:none; background:transparent; border-color:var(--stone-line); height:36px; }
+  .icon-btn:hover{ box-shadow:none; transform:none; background:#fff; }
+  .cta-btn{ height:36px; font-size:13px; box-shadow:none; background:var(--ink); }
+  .cta-btn:hover{ box-shadow:none; transform:none; background:#000; }
+  .notice{ background:none; border:none; margin:0 16px 2px; padding:2px 0; font-size:11px; font-weight:500; color:var(--ink-soft); }
+  .stage{ padding:2px 12px 8px; }
+  .stage-inner{ border-radius:14px; box-shadow:0 18px 40px -26px rgba(51,45,39,.45); }
+  .live-pill, .caption-bar{ display:none; }
+  .dock{ border-radius:20px 20px 0 0; box-shadow:0 -1px 0 var(--stone-line); background:#fff; }
+  .tray{ height:136px; border-bottom:none; }
+  .tray-head{ height:34px; padding:12px 18px 0; }
+  .row-title{ font-size:12px; font-weight:600; letter-spacing:.04em; color:var(--ink-mid); margin:0; }
+  .row-sub{ display:none; }
+  .tray-close{ width:26px; height:26px; background:none; }
+  .cat{ padding:0; }
+  .tray .swatches{ padding:8px 18px 6px; gap:10px; }
+  .swatch .chip{ box-shadow:0 0 0 1px var(--stone-line); }
+  .swatch.active .chip{ box-shadow:0 0 0 2px var(--ink); }
+  .swatch.active{ color:var(--ink); font-weight:600; }
+  .swatch.option-tile{ background:#fff; box-shadow:none; border-radius:14px; padding:9px 14px; }
+  .swatch.option-tile:hover{ box-shadow:none; transform:none; background:var(--stone); }
+  .swatch.option-tile.active{ background:var(--ink); color:#fff; box-shadow:none; }
+  .swatch.option-tile.active .chip{ background:rgba(255,255,255,.18); }
+  .toolbar{ padding:2px 8px 8px; }
+  .tool-btn{ gap:3px; padding:7px 4px 6px; border-radius:12px; font-weight:500; }
+  .tool-btn svg{ width:21px; height:21px; }
+  .tool-btn:hover{ background:none; color:var(--ink); }
+  .tool-btn.active{ background:none; box-shadow:none; color:var(--ink); font-weight:700; position:relative; }
+  .tool-btn.active::after{ content:''; position:absolute; bottom:0; width:16px; height:2px; border-radius:2px; background:var(--ink); }
+
+  /* ---------------- overlay dock ---------------- */
+  .app{ position:relative; }
+  .stage{ padding:2px 0 0; }
+  .stage-inner{ border-radius:0; box-shadow:none; }
+  .dock{
+    position:absolute; left:0; right:0; bottom:0; margin:0 auto;
+    background:rgba(255,255,255,.5);
+    -webkit-backdrop-filter:blur(14px) saturate(1.2); backdrop-filter:blur(14px) saturate(1.2);
+    box-shadow:0 -1px 0 rgba(255,255,255,.6);
+    border-radius:20px 20px 0 0;
+  }
+  .swatch.option-tile{ background:rgba(255,255,255,.6); border-color:rgba(51,45,39,.1); }
+  .tool-btn{ color:var(--ink-mid); }
+  .row-title{ color:var(--ink); }
+  .tray-close{ color:var(--ink); }
+  .tray .swatch:not(.option-tile){ color:var(--ink); }
+  .stage-inner.fill{ width:100%; height:100%; aspect-ratio:auto; max-width:none; }
+  .stage-inner.fill .caption-bar{ display:none; }
+
+  /* ---------------- compact dock ---------------- */
+  .dock{ border-radius:16px 16px 0 0; }
+  .tray{ height:78px; }
+  .tray-head{ height:24px; padding:8px 14px 0; }
+  .row-title{ font-size:11px; font-weight:600; }
+  .tray-close{ width:20px; height:20px; }
+  .tray-close svg{ width:14px; height:14px; }
+  .tray .swatches{ padding:4px 14px 4px; gap:8px; align-items:center; }
+  .tray .swatch:not(.option-tile){ width:auto; }
+  .tray .swatch:not(.option-tile){ font-size:0; gap:0; }
+  .swatch .chip{ width:32px; height:32px; }
+  .swatch.option-tile{ padding:5px 12px 5px 10px; gap:7px; border-radius:12px; font-size:12px; }
+  .swatch.option-tile .chip{ width:26px; height:26px; border-radius:8px; }
+  .toolbar{ padding:0 6px 4px; }
+  .tool-btn{ gap:1px; padding:4px 2px 5px; font-size:10px; }
+  .tool-btn svg{ width:18px; height:18px; }
+  .tool-btn.active::after{ width:12px; bottom:1px; }
+  @media (max-width:520px){ .tool-btn svg{ width:18px; height:18px; } .tool-btn{ font-size:10px; } }
+
+  /* ---------------- premium pass ---------------- */
+  body{ background:#F6F1EA; }
+  .app{ background:radial-gradient(80% 55% at 50% 40%, #FFFEFB 0%, #F6F1EA 62%, #E9DDCD 100%); }
+  .brand{ display:flex; flex-direction:column; line-height:1; }
+  .brand .overline{ font-size:9.5px; font-weight:700; letter-spacing:.32em; color:var(--bronze); margin-bottom:3px; }
+  .topbar h1{ font-size:23px; letter-spacing:.01em; }
+  .cta-btn{
+    background:linear-gradient(135deg, #A98660 0%, #7A5D3F 100%);
+    position:relative; overflow:hidden;
+    box-shadow:0 10px 22px -10px rgba(111,84,54,.8);
+  }
+  .cta-btn:hover{ background:linear-gradient(135deg, #B08D66 0%, #6F5436 100%); transform:translateY(-1px); box-shadow:0 14px 26px -10px rgba(111,84,54,.85); }
+  .cta-btn::after{
+    content:''; position:absolute; top:0; bottom:0; width:40%; left:-60%;
+    background:linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+    transform:skewX(-20deg);
+  }
+  body.ready .cta-btn::after{ animation:shine 3.6s ease-in-out 1.6s infinite; }
+  @keyframes shine{ 0%,60%{ left:-60%; } 100%{ left:130%; } }
+  .icon-btn{ background:rgba(255,255,255,.7); }
+  .stage-inner{ background:#fff; }
+  @media (min-width:900px){
+    .stage-inner:not(.fill){ border-radius:22px; box-shadow:0 40px 80px -40px rgba(70,50,30,.6), 0 0 0 1px rgba(51,45,39,.05); }
+  }
+  .dock{
+    background:rgba(255,252,247,.55);
+    -webkit-backdrop-filter:blur(18px) saturate(1.35); backdrop-filter:blur(18px) saturate(1.35);
+    box-shadow:0 -10px 30px -18px rgba(51,45,39,.35), inset 0 1px 0 rgba(255,255,255,.7);
+  }
+  .tool-btn{ transition:background .25s ease, color .25s ease, transform .25s cubic-bezier(.3,1.4,.5,1); }
+  .tool-btn:active{ transform:scale(.92); }
+  .tool-btn.active{ background:rgba(156,122,82,.16); color:var(--bronze-deep); }
+  .tool-btn.active::after{ display:none; }
+  .swatch .chip{ transition:transform .3s cubic-bezier(.3,1.5,.5,1), box-shadow .25s ease; }
+  .swatch.active .chip{ transform:scale(1.1); box-shadow:0 0 0 2px #fff, 0 0 0 4px var(--bronze), 0 6px 12px -4px rgba(111,84,54,.55); }
+  .swatch:hover .chip{ transform:translateY(-2px) scale(1.04); }
+  .swatch.option-tile.active{ background:linear-gradient(135deg, #A98660, #7A5D3F); color:#fff; box-shadow:0 8px 16px -8px rgba(111,84,54,.65); }
+  .swatch.option-tile.active .chip{ transform:none; box-shadow:none; background:rgba(255,255,255,.22); }
+  .row-title{ color:var(--bronze-deep); }
+  #room.pop{ animation:roomPop .38s ease; }
+  @keyframes roomPop{ 0%{ opacity:.82; filter:saturate(.9); } 100%{ opacity:1; filter:none; } }
+
+  /* ---------------- splash + entrance ---------------- */
+  #splash{
+    position:fixed; inset:0; z-index:100;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;
+    background:radial-gradient(70% 60% at 50% 42%, #FFFEFB 0%, #F6F1EA 60%, #E6D8C5 100%);
+    transition:opacity .7s ease .05s, transform .9s cubic-bezier(.7,0,.2,1), visibility 0s linear .95s;
+  }
+  #splash.out{ opacity:0; transform:scale(1.06); visibility:hidden; pointer-events:none; }
+  #splash img{ width:150px; height:auto; opacity:0; transform:translateY(10px) scale(.92); animation:splashLogo .9s cubic-bezier(.2,.8,.2,1) .15s forwards; }
+  #splash .tag{
+    font-family:'Cormorant Garamond', serif; font-size:22px; letter-spacing:.06em; color:var(--bronze-deep);
+    opacity:0; animation:splashFade .8s ease .65s forwards; direction:rtl;
+  }
+  #splash .bar{ width:96px; height:2px; border-radius:2px; background:rgba(156,122,82,.18); overflow:hidden; opacity:0; animation:splashFade .5s ease .8s forwards; }
+  #splash .bar i{ display:block; height:100%; width:40%; background:linear-gradient(90deg, #A98660, #7A5D3F); border-radius:2px; animation:splashBar 1.1s ease-in-out infinite; }
+  @keyframes splashLogo{ to{ opacity:1; transform:none; } }
+  @keyframes splashFade{ to{ opacity:1; } }
+  @keyframes splashBar{ 0%{ transform:translateX(-120%); } 100%{ transform:translateX(280%); } }
+
+  body.intro:not(.ready) .topbar, body.intro:not(.ready) .notice{ opacity:0; transform:translateY(-10px); }
+  body.intro:not(.ready) .stage-inner{ opacity:0; transform:scale(1.045); filter:blur(10px); }
+  body.intro:not(.ready) .dock{ transform:translateY(110%); }
+  body.intro:not(.ready) .tool-btn{ opacity:0; transform:translateY(12px); }
+  body.intro .topbar, body.intro .notice{ transition:opacity .7s ease .15s, transform .7s cubic-bezier(.2,.8,.2,1) .15s; }
+  body.intro .stage-inner{ transition:opacity .9s ease, transform 1.3s cubic-bezier(.2,.8,.2,1), filter 1.1s ease; }
+  body.intro .dock{ transition:transform .9s cubic-bezier(.2,.9,.2,1) .35s; }
+  body.intro .tool-btn{ transition:opacity .5s ease, transform .6s cubic-bezier(.2,1.2,.4,1), background .25s ease, color .25s ease; }
+  body.ready .tool-btn:nth-child(1){ transition-delay:.55s,.55s,0s,0s; }
+  body.ready .tool-btn:nth-child(2){ transition-delay:.62s,.62s,0s,0s; }
+  body.ready .tool-btn:nth-child(3){ transition-delay:.69s,.69s,0s,0s; }
+  body.ready .tool-btn:nth-child(4){ transition-delay:.76s,.76s,0s,0s; }
+  body.ready .tool-btn:nth-child(5){ transition-delay:.83s,.83s,0s,0s; }
+  body.ready .tool-btn:nth-child(6){ transition-delay:.9s,.9s,0s,0s; }
+  body.ready .tool-btn:nth-child(7){ transition-delay:.97s,.97s,0s,0s; }
+  @media (prefers-reduced-motion:reduce){
+    #splash, #splash *, body.intro *, #room.pop{ animation:none !important; transition:none !important; }
+    #splash{ display:none; }
+    body.intro:not(.ready) .topbar, body.intro:not(.ready) .notice, body.intro:not(.ready) .stage-inner, body.intro:not(.ready) .dock, body.intro:not(.ready) .tool-btn{ opacity:1; transform:none; filter:none; }
   }
 </style>
 </head>
-<body>
+<body class="intro">
+<script>setTimeout(function(){document.body.classList.add("ready");var s=document.getElementById("splash");if(s)s.classList.add("out");},5000);</script>
+<div id="splash"><img id="splashLogo" alt="WallArt"><div class="tag">עצבו את חדר החלומות</div><div class="bar"><i></i></div></div>
 
-<div class="layout">
+<div class="app">
 
-  <div class="preview-wrap">
-    <svg id="room" viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg"></svg>
-    <div class="caption-bar">
-      <div class="dot">←</div>
-      <span id="summary">חדר ילדים בהתאמה אישית</span>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-head">
-      <h1>עיצוב החדר</h1>
-      <p>בחרו גוון, קרניז, מדבקות ותמונות — ההדמיה מתעדכנת בזמן אמת.</p>
-      <p class="disclaimer">⚠ הדמיה בלבד! ייתכנו שינויים במציאות — הגוונים והמידות עשויים להיראות אחרת על הקיר בפועל.</p>
-      <button id="downloadBtn" class="download-btn">
+  <header class="topbar">
+    <div class="brand"><span class="overline">WALLART · IL</span><h1>עיצוב החדר</h1></div>
+    <div class="top-actions">
+      <button id="downloadBtn" class="icon-btn" aria-label="הורדת תמונה">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        הורדת תמונה (PNG)
+        <span>הורדה</span>
       </button>
+      <a href="https://wallart-builder-he.lovable.app" class="cta-btn" id="ctaLink">
+        <span><span class="cta-long">אהבתם? </span>המשיכו להזמנה</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
+  </header>
 
-    <details class="row" open>
-      <summary>
-        <span class="titles">
-          <p class="row-title">גוון — המומלצים שלנו</p>
-          <p class="row-sub">צבע הרקע בחדר</p>
-        </span>
-        <svg class="chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </summary>
-      <div class="row-body">
+  <div class="notice">⚠ הדמיה בלבד! ייתכנו שינויים במציאות — הגוונים והמידות עשויים להיראות אחרת על הקיר בפועל.</div>
+
+  <main class="stage">
+    <div class="stage-inner">
+      <svg id="room" viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="live-pill"><i></i>LIVE</div>
+      <div class="caption-bar"><span id="summary">חדר ילדים בהתאמה אישית</span></div>
+    </div>
+  </main>
+
+  <div class="dock">
+    <div class="tray" id="tray">
+      <div class="tray-head">
+        <div><p class="row-title" id="trayTitle"></p><p class="row-sub" id="traySub"></p></div>
+        <button class="tray-close" id="trayClose" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <section class="cat active" data-cat="color" data-title="גוון — המומלצים שלנו" data-sub="צבע הרקע בחדר" data-short="גוון">
       <div class="swatches" data-group="color">
         <button class="swatch active" data-value="#E8DCDC" data-label="Baby Blush · 0085P"><span class="chip" style="background:#E8DCDC"></span>Baby Blush · 0085P</button>
         <button class="swatch" data-value="#E9E0CF" data-label="Little Dove · IS 0006"><span class="chip" style="background:#E9E0CF"></span>Little Dove · IS 0006</button>
@@ -369,18 +500,8 @@
         <button class="swatch" data-value="#EEEBE4" data-label="Swan Lake · 0021P"><span class="chip" style="background:#EEEBE4"></span>Swan Lake · 0021P</button>
         <button class="swatch" data-value="#E4DACE" data-label="Lasting White · 1555P"><span class="chip" style="background:#E4DACE"></span>Lasting White · 1555P</button>
       </div>
-      </div>
-    </details>
-
-    <details class="row">
-      <summary>
-        <span class="titles">
-          <p class="row-title">קרניז</p>
-          <p class="row-sub">פס דקורטיבי בשליש התחתון של הקיר</p>
-        </span>
-        <svg class="chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </summary>
-      <div class="row-body">
+      </section>
+      <section class="cat" data-cat="cornice" data-title="קרניז" data-sub="פס דקורטיבי בשליש התחתון של הקיר" data-short="קרניז">
       <div class="swatches" data-group="cornice">
         <button class="swatch option-tile" data-value="symmetric" data-label="סימטרי">
           <span class="chip"><svg width="30" height="16" viewBox="0 0 34 16"><path d="M1 14 Q1 10 5 10 Q9 10 9 6 Q9 2 13 2 L21 2 Q25 2 25 6 Q25 10 29 10 Q33 10 33 14" fill="none" stroke="#7A5D3F" stroke-width="1.6"/></svg></span>
@@ -391,18 +512,8 @@
           אסימטרי
         </button>
       </div>
-      </div>
-    </details>
-
-    <details class="row">
-      <summary>
-        <span class="titles">
-          <p class="row-title">מסגרות קרניז בתחתית</p>
-          <p class="row-sub">פאנלים מעוצבים מתחת לקרניז, בגוון הצבע שנבחר</p>
-        </span>
-        <svg class="chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </summary>
-      <div class="row-body">
+      </section>
+      <section class="cat" data-cat="wainscot" data-title="מסגרות קרניז בתחתית" data-sub="פאנלים מעוצבים מתחת לקרניז, בגוון הצבע שנבחר" data-short="פאנלים">
       <div class="swatches" data-group="wainscot">
         <button class="swatch option-tile active" data-value="none" data-label="ללא מסגרות">
           <span class="chip"><svg width="30" height="16" viewBox="0 0 34 16"><rect x="1" y="1" width="32" height="14" rx="2" fill="none" stroke="#C9BC9E" stroke-width="1.4"/></svg></span>
@@ -413,18 +524,8 @@
           עם מסגרות
         </button>
       </div>
-      </div>
-    </details>
-
-    <details class="row">
-      <summary>
-        <span class="titles">
-          <p class="row-title">מיקום הצבע</p>
-          <p class="row-sub">איזה חלק מהקיר צבוע ביחס לקרניז, השאר לבן</p>
-        </span>
-        <svg class="chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </summary>
-      <div class="row-body">
+      </section>
+      <section class="cat" data-cat="colorZone" data-title="מיקום הצבע" data-sub="איזה חלק מהקיר צבוע ביחס לקרניז, השאר לבן" data-short="מיקום">
       <div class="swatches" data-group="colorZone">
         <button class="swatch option-tile" data-value="top" data-label="שני שליש עליון">
           <span class="chip" style="background:linear-gradient(to bottom, #9C7B4F 0%, #9C7B4F 66%, #FFFFFF 66%, #FFFFFF 100%); border:1px solid #D8CDBB"></span>
@@ -435,18 +536,8 @@
           שליש תחתון
         </button>
       </div>
-      </div>
-    </details>
-
-    <details class="row">
-      <summary>
-        <span class="titles">
-          <p class="row-title">סגנון הצבע</p>
-          <p class="row-sub">צבע מלא או פסים בחלק העליון (מעל הקרניז), לפי הגוון שנבחר</p>
-        </span>
-        <svg class="chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </summary>
-      <div class="row-body">
+      </section>
+      <section class="cat" data-cat="pattern" data-title="סגנון הצבע" data-sub="צבע מלא או פסים בחלק העליון (מעל הקרניז), לפי הגוון שנבחר" data-short="פסים">
       <div class="swatches" data-group="pattern">
         <button class="swatch option-tile active" data-value="solid" data-label="צבע מלא">
           <span class="chip" style="background:#9C7B4F; border:1px solid #D8CDBB"></span>
@@ -461,42 +552,75 @@
           פסים עבים
         </button>
       </div>
-      </div>
-    </details>
-
-    <details class="row">
-      <summary>
-        <span class="titles">
-          <p class="row-title">מדבקות קיר</p>
-          <p class="row-sub">דוגמית מפוזרת על הקיר</p>
-        </span>
-        <svg class="chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </summary>
-      <div class="row-body">
+      </section>
+      <section class="cat" data-cat="sticker" data-title="מדבקות קיר" data-sub="דוגמית מפוזרת על הקיר" data-short="מדבקות">
       <div class="swatches" data-group="sticker" id="stickerGroup"></div>
-      </div>
-    </details>
-
-    <details class="row">
-      <summary>
-        <span class="titles">
-          <p class="row-title">תמונות ממוסגרות</p>
-          <p class="row-sub">בחרו שלישיית תמונות לתלייה על הקיר</p>
-        </span>
-        <svg class="chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </summary>
-      <div class="row-body">
+      </section>
+      <section class="cat" data-cat="frameset" data-title="תמונות ממוסגרות" data-sub="בחרו שלישיית תמונות לתלייה על הקיר" data-short="תמונות">
       <div class="swatches" data-group="frameset" id="framesetGroup"></div>
-      </div>
-    </details>
-
-    <a href="https://wallart-builder-he.lovable.app" class="cta-btn" id="ctaLink">
-      אהבתם? המשיכו להזמנה
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-
+      </section>
+    </div>
+    <nav class="toolbar" id="toolbar"></nav>
   </div>
+
 </div>
+
+<script>
+(function(){
+  const stage = document.querySelector('.stage');
+  const inner = document.querySelector('.stage-inner');
+  const svg = document.getElementById('room');
+  function fit(){
+    const r = stage.getBoundingClientRect();
+    const narrow = (r.width / r.height) < (600/900);
+    inner.classList.toggle('fill', narrow);
+    svg.setAttribute('preserveAspectRatio', narrow ? 'xMidYMid slice' : 'xMidYMid meet');
+  }
+  fit();
+  window.addEventListener('resize', fit);
+})();
+</script>
+
+<script>
+(function(){
+  const ICONS = {'color':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.4 6 10.5A6 6 0 0 1 6 13.5C6 9.4 12 3 12 3z"/></svg>`,'cornice':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 11h18"/><path d="M5 11v8M19 11v8" opacity=".5"/></svg>`,'wainscot':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="1.5"/><rect x="6" y="9" width="4" height="8"/><rect x="14" y="9" width="4" height="8"/></svg>`,'colorZone':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 14h16"/></svg>`,'pattern':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16M14 4v16" /></svg>`,'sticker':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 5 5.4.7-4 3.8 1 5.4L12 15.3 7.2 18l1-5.4-4-3.8 5.4-.7z"/></svg>`,'frameset':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/><circle cx="9" cy="10" r="1.6"/><path d="M5 18l5-5 3 3 3-3 3 3"/></svg>`};
+  const tray = document.getElementById('tray');
+  const toolbar = document.getElementById('toolbar');
+  const cats = Array.from(document.querySelectorAll('.cat'));
+  let current = null;
+  function show(key){
+    current = key;
+    cats.forEach(c => c.classList.toggle('active', c.dataset.cat === key));
+    toolbar.querySelectorAll('.tool-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === key));
+    const c = cats.find(x => x.dataset.cat === key);
+    c._upd = () => { const a = c.querySelector('.swatch.active'); document.getElementById('trayTitle').textContent = c.dataset.short + (a && a.dataset.label ? ' · ' + a.dataset.label : ''); }; c._upd();
+    document.getElementById('traySub').textContent = c.dataset.sub;
+    tray.classList.remove('closed');
+    const act = c.querySelector('.swatch.active');
+    const sc = c.querySelector('.swatches');
+    if(act && sc){ sc.scrollLeft = 0; try{ act.scrollIntoView({inline:'center', block:'nearest'}); }catch(e){} }
+  }
+  cats.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'tool-btn';
+    b.dataset.cat = c.dataset.cat;
+    b.innerHTML = (ICONS[c.dataset.cat] || '') + '<span>' + c.dataset.short + '</span>';
+    b.addEventListener('click', () => {
+      if(current === c.dataset.cat && !tray.classList.contains('closed')){
+        tray.classList.add('closed');
+        b.classList.remove('active');
+      } else show(c.dataset.cat);
+    });
+    toolbar.appendChild(b);
+  });
+  document.getElementById('trayClose').addEventListener('click', () => {
+    tray.classList.add('closed');
+    toolbar.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+  });
+  tray.addEventListener('click', () => setTimeout(() => { const c = cats.find(x => x.dataset.cat === current); if(c && c._upd) c._upd(); }, 0));
+  show(cats[0].dataset.cat);
+})();
+</script>
 
 
 <script>
@@ -1349,7 +1473,7 @@ function render(){
     ${wainscot}
     ${stickers}
     ${frames}
-    <image href="${WALLART_LOGO}" x="486" y="16" width="100" height="69" opacity="0.95"/>
+    <image href="${WALLART_LOGO}" x="436" y="24" width="100" height="69" opacity="0.95"/>
   `;
 
   document.getElementById('summary').textContent =
@@ -1477,6 +1601,29 @@ document.getElementById('downloadBtn').addEventListener('click', downloadRoomPNG
 
 render();
 </script>
+
+<script>
+(function(){
+  try{ document.getElementById('splashLogo').src = WALLART_LOGO; }catch(e){}
+  const splash = document.getElementById('splash');
+  const t0 = performance.now();
+  let done = false;
+  function reveal(){
+    if(done) return; done = true;
+    splash.classList.add('out');
+    requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add('ready')));
+    setTimeout(() => splash.remove(), 1200);
+  }
+  const wait = Math.max(0, 1500 - (performance.now() - t0));
+  setTimeout(reveal, wait);
+  splash.addEventListener('click', reveal);
+  // gentle crossfade each time the room re-renders
+  const room = document.getElementById('room');
+  const _render = render;
+  render = function(){ _render(); room.classList.remove('pop'); void room.getBoundingClientRect(); room.classList.add('pop'); };
+})();
+</script>
+
 
 </body>
 </html>
