@@ -12,7 +12,7 @@
     --stone-deep:#E2D5C4;
     --stone-line: rgba(56,51,47,.14);
     --ink:#332D27;
-    --ink-soft:#7D7063;
+    --ink-soft:#6B6054;
     --ink-mid:#5E5448;
     --bronze:#9C7A52;
     --bronze-deep:#6F5436;
@@ -363,20 +363,20 @@
   body{ background:#F6F1EA; }
   .app{ background:radial-gradient(80% 55% at 50% 40%, #FFFEFB 0%, #F6F1EA 62%, #E9DDCD 100%); }
   .brand{ display:flex; flex-direction:column; line-height:1; }
-  .brand .overline{ font-size:9.5px; font-weight:700; letter-spacing:.32em; color:var(--bronze); margin-bottom:3px; }
+  .brand .overline{ font-size:9.5px; font-weight:700; letter-spacing:.32em; color:var(--bronze-deep); margin-bottom:3px; }
   .topbar h1{ font-size:23px; letter-spacing:.01em; }
   .cta-btn{
-    background:linear-gradient(135deg, #A98660 0%, #7A5D3F 100%);
+    background:linear-gradient(135deg, #8C6B47 0%, #7A5D3F 100%);
     position:relative; overflow:hidden;
     box-shadow:0 10px 22px -10px rgba(111,84,54,.8);
   }
-  .cta-btn:hover{ background:linear-gradient(135deg, #B08D66 0%, #6F5436 100%); transform:translateY(-1px); box-shadow:0 14px 26px -10px rgba(111,84,54,.85); }
+  .cta-btn:hover{ background:linear-gradient(135deg, #86663F 0%, #6F5436 100%); transform:translateY(-1px); box-shadow:0 14px 26px -10px rgba(111,84,54,.85); }
   .cta-btn::after{
     content:''; position:absolute; top:0; bottom:0; width:40%; left:-60%;
     background:linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
     transform:skewX(-20deg);
   }
-  body.ready .cta-btn::after{ animation:shine 3.6s ease-in-out 1.6s infinite; }
+  body.ready .cta-btn::after{ animation:shine 3.6s ease-in-out 1.6s 1; }
   @keyframes shine{ 0%,60%{ left:-60%; } 100%{ left:130%; } }
   .icon-btn{ background:rgba(255,255,255,.7); }
   .stage-inner{ background:#fff; }
@@ -395,7 +395,7 @@
   .swatch .chip{ transition:transform .3s cubic-bezier(.3,1.5,.5,1), box-shadow .25s ease; }
   .swatch.active .chip{ transform:scale(1.1); box-shadow:0 0 0 2px #fff, 0 0 0 4px var(--bronze), 0 6px 12px -4px rgba(111,84,54,.55); }
   .swatch:hover .chip{ transform:translateY(-2px) scale(1.04); }
-  .swatch.option-tile.active{ background:linear-gradient(135deg, #A98660, #7A5D3F); color:#fff; box-shadow:0 8px 16px -8px rgba(111,84,54,.65); }
+  .swatch.option-tile.active{ background:linear-gradient(135deg, #8C6B47, #7A5D3F); color:#fff; box-shadow:0 8px 16px -8px rgba(111,84,54,.65); }
   .swatch.option-tile.active .chip{ transform:none; box-shadow:none; background:rgba(255,255,255,.22); }
   .row-title{ color:var(--bronze-deep); }
   #room.pop{ animation:roomPop .38s ease; }
@@ -436,22 +436,50 @@
   body.ready .tool-btn:nth-child(6){ transition-delay:.9s,.9s,0s,0s; }
   body.ready .tool-btn:nth-child(7){ transition-delay:.97s,.97s,0s,0s; }
   @media (prefers-reduced-motion:reduce){
-    #splash, #splash *, body.intro *, #room.pop{ animation:none !important; transition:none !important; }
+    #splash, #splash *, body.intro *, #room.pop, .cta-btn::after{ animation:none !important; transition:none !important; }
     #splash{ display:none; }
     body.intro:not(.ready) .topbar, body.intro:not(.ready) .notice, body.intro:not(.ready) .stage-inner, body.intro:not(.ready) .dock, body.intro:not(.ready) .tool-btn{ opacity:1; transform:none; filter:none; }
+  }
+
+  /* ---------------- accessibility pass (WCAG 2.1 AA) ---------------- */
+  .sr-only{ position:absolute!important; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+  .skip{ position:absolute; right:8px; top:-80px; z-index:200; background:#332D27; color:#fff; padding:10px 16px; border-radius:10px; font-weight:700; text-decoration:none; }
+  .skip:focus{ top:8px; }
+  :focus-visible{ outline:3px solid #332D27; outline-offset:2px; }
+  .cta-btn:focus-visible, .swatch.option-tile.active:focus-visible{ outline-color:#332D27; box-shadow:0 0 0 2px #fff, 0 0 0 5px #332D27; }
+  .tray.closed{ visibility:hidden; transition:height .28s ease, opacity .2s ease, visibility 0s linear .28s; }
+  .dock{ background:rgba(255,252,247,.88); }
+  .swatch:not(.option-tile):not(.active) .chip{ box-shadow:0 0 0 1px #8C8173; }
+  .tray-close{ width:24px; height:24px; }
+  .a11y-link{ font:inherit; font-weight:700; color:var(--bronze-deep); background:none; border:none; padding:0 2px; margin:0; text-decoration:underline; cursor:pointer; }
+  #a11yDialog{ direction:rtl; max-width:min(560px, 92vw); max-height:86vh; overflow:auto; border:none; border-radius:18px; padding:22px 24px; background:#FFFCF8; color:var(--ink); font-family:'Assistant',sans-serif; font-size:15px; line-height:1.55; box-shadow:0 30px 70px -20px rgba(0,0,0,.5); }
+  #a11yDialog::backdrop{ background:rgba(51,45,39,.55); }
+  #a11yDialog h2{ font-family:'Cormorant Garamond',serif; font-size:26px; margin:0 0 8px; }
+  #a11yDialog h3{ font-size:15px; margin:16px 0 4px; color:var(--bronze-deep); }
+  #a11yDialog p, #a11yDialog ul{ margin:4px 0; } #a11yDialog ul{ padding-inline-start:20px; }
+  #a11yDialog .dlg-date{ color:var(--ink-soft); font-size:13px; margin-top:14px; }
+  .dlg-close{ margin-top:14px; height:40px; padding:0 22px; font:inherit; font-weight:700; color:#fff; background:#6F5436; border:none; border-radius:999px; cursor:pointer; }
+  @media (max-height:480px){
+    html,body{ overflow:auto; height:auto; }
+    .app{ height:auto; min-height:100vh; }
+    .topbar{ flex-wrap:wrap; }
+    .stage{ flex:none; display:block; padding:2px 12px 8px; }
+    .stage-inner, .stage-inner.fill{ height:auto; width:100%; max-width:420px; margin:0 auto; aspect-ratio:600/900; }
+    .dock{ position:relative; }
   }
 </style>
 </head>
 <body class="intro">
+<a class="skip" href="#main">דלגו לתוכן הראשי</a>
 <script>setTimeout(function(){document.body.classList.add("ready");var s=document.getElementById("splash");if(s)s.classList.add("out");},5000);</script>
-<div id="splash"><img id="splashLogo" alt="WallArt"><div class="tag">עצבו את חדר החלומות</div><div class="bar"><i></i></div></div>
+<div id="splash" aria-hidden="true"><img id="splashLogo" alt="WallArt"><div class="tag">עצבו את חדר החלומות</div><div class="bar"><i></i></div></div>
 
 <div class="app">
 
   <header class="topbar">
     <div class="brand"><span class="overline">WALLART · IL</span><h1>עיצוב החדר</h1></div>
     <div class="top-actions">
-      <button id="downloadBtn" class="icon-btn" aria-label="הורדת תמונה">
+      <button id="downloadBtn" class="icon-btn" aria-label="הורדה של תמונת ההדמיה">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>הורדה</span>
       </button>
@@ -462,21 +490,21 @@
     </div>
   </header>
 
-  <div class="notice">⚠ הדמיה בלבד! ייתכנו שינויים במציאות — הגוונים והמידות עשויים להיראות אחרת על הקיר בפועל.</div>
+  <div class="notice">⚠ הדמיה בלבד! ייתכנו שינויים במציאות — הגוונים והמידות עשויים להיראות אחרת על הקיר בפועל. <button type="button" class="a11y-link" id="a11yOpen" aria-haspopup="dialog">הצהרת נגישות</button></div>
 
-  <main class="stage">
+  <main class="stage" id="main" tabindex="-1">
     <div class="stage-inner">
-      <svg id="room" viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg"></svg>
-      <div class="live-pill"><i></i>LIVE</div>
-      <div class="caption-bar"><span id="summary">חדר ילדים בהתאמה אישית</span></div>
+      <svg id="room" viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="הדמיית חדר ילדים"></svg>
+      <div class="live-pill" aria-hidden="true"><i></i>LIVE</div>
+      <div class="caption-bar" aria-hidden="true"><span id="summary">חדר ילדים בהתאמה אישית</span></div>
     </div>
   </main>
 
   <div class="dock">
-    <div class="tray" id="tray">
+    <div class="tray" id="tray" role="region" aria-labelledby="trayTitle">
       <div class="tray-head">
         <div><p class="row-title" id="trayTitle"></p><p class="row-sub" id="traySub"></p></div>
-        <button class="tray-close" id="trayClose" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="tray-close" id="trayClose" aria-label="סגירת אפשרויות העיצוב"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
       <section class="cat active" data-cat="color" data-title="גוון — המומלצים שלנו" data-sub="צבע הרקע בחדר" data-short="גוון">
       <div class="swatches" data-group="color">
@@ -560,10 +588,35 @@
       <div class="swatches" data-group="frameset" id="framesetGroup"></div>
       </section>
     </div>
-    <nav class="toolbar" id="toolbar"></nav>
+    <nav class="toolbar" id="toolbar" aria-label="קטגוריות עיצוב"></nav>
   </div>
 
 </div>
+
+<div class="sr-only" id="a11yLive" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<dialog id="a11yDialog" aria-labelledby="a11yTitle">
+  <h2 id="a11yTitle">הצהרת נגישות</h2>
+  <p>WallArt IL רואה חשיבות רבה במתן שירות שוויוני ונגיש לכלל הלקוחות, ובכלל זה אנשים עם מוגבלות. הדמיית החדר הותאמה להנחיות WCAG 2.1 ברמה AA ולתקן הישראלי ת"י 5568.</p>
+  <h3>התאמות שבוצעו</h3>
+  <ul>
+    <li>ניווט מלא במקלדת, עם סימון ברור של האלמנט הפעיל.</li>
+    <li>תמיכה בקוראי מסך: מצב הבחירה מוכרז, ותיאור טקסטואלי של ההדמיה מתעדכן עם כל שינוי.</li>
+    <li>ניגודיות צבעים העומדת ביחס 4.5:1 בטקסטים.</li>
+    <li>התאמה להגדלת תצוגה עד 400% ולהפחתת תנועה לפי הגדרות המכשיר.</li>
+  </ul>
+  <h3>מגבלות ידועות</h3>
+  <p>ההדמיה היא תמונה גרפית; תיאורה הטקסטואלי כולל את הבחירות שנעשו אך אינו מחליף את התצוגה הוויזואלית של הצבעים והתבניות.</p>
+  <h3>פנייה בנושא נגישות</h3>
+  <p>נתקלתם בקושי? נשמח לעזור ולתקן. ניתן לפנות לרכז/ת הנגישות:</p>
+  <ul>
+    <li>שם: <span id="a11yName"></span></li>
+    <li>טלפון: <span id="a11yPhone"></span></li>
+    <li>דוא"ל: <span id="a11yMail"></span></li>
+  </ul>
+  <p class="dlg-date">עודכן לאחרונה: 23.10.2026</p>
+  <button type="button" class="dlg-close" id="a11yClose">סגירה</button>
+</dialog>
 
 <script>
 (function(){
@@ -588,7 +641,7 @@
   const toolbar = document.getElementById('toolbar');
   const cats = Array.from(document.querySelectorAll('.cat'));
   let current = null;
-  function show(key){
+  function show(key, fromUser){
     current = key;
     cats.forEach(c => c.classList.toggle('active', c.dataset.cat === key));
     toolbar.querySelectorAll('.tool-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === key));
@@ -598,7 +651,7 @@
     tray.classList.remove('closed');
     const act = c.querySelector('.swatch.active');
     const sc = c.querySelector('.swatches');
-    if(act && sc){ sc.scrollLeft = 0; try{ act.scrollIntoView({inline:'center', block:'nearest'}); }catch(e){} }
+    if(act && sc){ sc.scrollLeft = 0; if(fromUser) try{ act.scrollIntoView({inline:'center', block:'nearest'}); }catch(e){} }
   }
   cats.forEach(c => {
     const b = document.createElement('button');
@@ -609,7 +662,7 @@
       if(current === c.dataset.cat && !tray.classList.contains('closed')){
         tray.classList.add('closed');
         b.classList.remove('active');
-      } else show(c.dataset.cat);
+      } else show(c.dataset.cat, true);
     });
     toolbar.appendChild(b);
   });
@@ -1624,6 +1677,47 @@ render();
 })();
 </script>
 
+<script>
+(function(){
+  const A11Y_CONTACT = { name:'ישראל כהן', phone:'054-6458578', email:'israelco7890@gmail.com' };
+  const fill = (id, v, ph) => { const el = document.getElementById(id); if(el) el.textContent = v || ph; };
+  fill('a11yName', A11Y_CONTACT.name, '[יש להשלים שם רכז/ת נגישות]');
+  fill('a11yPhone', A11Y_CONTACT.phone, '[יש להשלים טלפון]');
+  fill('a11yMail', A11Y_CONTACT.email, '[יש להשלים כתובת דוא"ל]');
+  const dlg = document.getElementById('a11yDialog');
+  document.getElementById('a11yOpen').addEventListener('click', () => { if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open',''); });
+  document.getElementById('a11yClose').addEventListener('click', () => { if(dlg.close) dlg.close(); else dlg.removeAttribute('open'); });
+  dlg.addEventListener('click', e => { if(e.target === dlg && dlg.close) dlg.close(); });
+
+  const room = document.getElementById('room');
+  const live = document.getElementById('a11yLive');
+  let lastDesc = '';
+  function describe(){
+    return 'הדמיית חדר ילדים: גוון ' + state.colorLabel + ', צבע ב' + state.colorZoneLabel + ', ' + state.patternLabel +
+      ', קרניז ' + state.corniceLabel + ', ' + state.wainscotLabel + ', מדבקות: ' + state.stickerLabel + ', תמונות: ' + state.framesetLabel;
+  }
+  function sync(){
+    document.querySelectorAll('.swatch').forEach(b => b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false'));
+    document.querySelectorAll('.swatch .chip').forEach(c => c.setAttribute('aria-hidden','true'));
+    const open = !document.getElementById('tray').classList.contains('closed');
+    document.querySelectorAll('.tool-btn').forEach(b => {
+      b.setAttribute('aria-controls','tray');
+      b.setAttribute('aria-expanded', (open && b.classList.contains('active')) ? 'true' : 'false');
+    });
+    document.querySelectorAll('.cat').forEach(c => {
+      const g = c.querySelector('.swatches');
+      if(g){ g.setAttribute('role','group'); g.setAttribute('aria-label', c.dataset.short); }
+    });
+    const d = describe();
+    room.setAttribute('aria-label', d);
+    if(d !== lastDesc){ if(lastDesc) live.textContent = d; lastDesc = d; }
+  }
+  const _r = render;
+  render = function(){ _r(); sync(); };
+  document.addEventListener('click', () => setTimeout(sync, 0));
+  sync();
+})();
+</script>
 
 </body>
 </html>
